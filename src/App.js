@@ -22,7 +22,7 @@ function App() {
         className="main-image"
         style={{ maxWidth: '80%', height: 'auto', marginBottom: '20px', marginTop: '3vh' }}
       />
-      <h1 className="main-title">Chào mừng bạn đến với Hội nghị!</h1>
+      <h2 className="main-title">Chào mừng bạn đến với Hội nghị!</h2>
       <h4 style={{ textAlign: 'center', marginTop: '3vh' }}>
         Bạn đã đăng ký chưa?
       </h4>
