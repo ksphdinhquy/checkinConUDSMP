@@ -11,7 +11,7 @@ function ChaoMung() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const q = query(collection(db, "checkIns_test_5"));
+    const q = query(collection(db, "diemdanh"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const attendees = querySnapshot.docs.map((d) => d.data());
       setListAttend(attendees);

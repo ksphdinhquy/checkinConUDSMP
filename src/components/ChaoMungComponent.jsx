@@ -26,7 +26,7 @@ const ChaoMungComponent = ({ userCurrent }) => {
         alt="Check-in Title"
       />
       <h2
-        className="font-large text-blue"
+        className="font-large text-white"
         style={{
           textTransform: "uppercase",
           marginTop: "3vh", // Keep margin for spacing above the name
@@ -35,10 +35,10 @@ const ChaoMungComponent = ({ userCurrent }) => {
           lineHeight: 1.2,
         }}
       >
-        {userCurrent?.nguoidaidien || "."}
+        {userCurrent?.hovaten || "."}
       </h2>
       <h2
-        className="font-large text-blue"
+        className="font-large text-white"
         style={{
           textTransform: "uppercase",
           marginBottom: "1.15vh",
@@ -46,7 +46,7 @@ const ChaoMungComponent = ({ userCurrent }) => {
           lineHeight: 1.2,
         }}
       >
-        {userCurrent?.chucvu} {userCurrent?.tencongty || "."}
+        {userCurrent?.donvi || "."}
       </h2>
       <img
         src={checkin}
