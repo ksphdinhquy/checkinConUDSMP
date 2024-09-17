@@ -68,36 +68,36 @@ const DiemDanh = () => {
     }, [debouncedValue, debouncedSoDienThoai, unit]);
 
     const handleConfirm = async (user) => {
-    const date = moment();
-    const dateString = date.format("HH:mm DD-MM-YYYY");
+        const date = moment();
+        const dateString = date.format("HH:mm DD-MM-YYYY");
 
-    const checkInQuery = query(
-        collection(db, "diemdanh"),
-        where("hovaten", "==", user.hovaten),
-        where("checkIn", ">=", date.startOf('day').valueOf()), // Check for check-ins on the same day
-        where("checkIn", "<=", date.endOf('day').valueOf())
-    );
+        const checkInQuery = query(
+            collection(db, "diemdanh"),
+            where("hovaten", "==", user.hovaten),
+            where("checkIn", ">=", date.startOf('day').valueOf()), // Check for check-ins on the same day
+            where("checkIn", "<=", date.endOf('day').valueOf())
+        );
 
-    const existingCheckIns = await getDocs(checkInQuery);
+        const existingCheckIns = await getDocs(checkInQuery);
 
-    if (existingCheckIns.size > 0) {
-        const existingCheckIn = existingCheckIns.docs[0].data();
-        const checkInTime = moment(existingCheckIn.checkIn).format("HH:mm DD-MM-YYYY");
-        alert(`Bạn đã điểm danh vào lúc ${checkInTime}`);
-    } else {
-        await setDoc(doc(db, "diemdanh", uuidv4()), {
-            ...user,
-            checkIn: date.valueOf(), // Save the timestamp of check-in
-        });
+        if (existingCheckIns.size > 0) {
+            const existingCheckIn = existingCheckIns.docs[0].data();
+            const checkInTime = moment(existingCheckIn.checkIn).format("HH:mm DD-MM-YYYY");
+            alert(`Bạn đã điểm danh vào lúc ${checkInTime}.`);
+        } else {
+            await setDoc(doc(db, "diemdanh", uuidv4()), {
+                ...user,
+                checkIn: date.valueOf(), // Save the timestamp of check-in
+            });
 
-        alert(`Điểm danh thành công cho ${user.hovaten}`);
+            alert(`Điểm danh thành công cho ${user.hovaten}.`);
 
-        // Wait for 3 seconds before redirecting
-        setTimeout(() => {
-            navigate('/so-do-hoi-nghi');
-        }, 3000);
-    }
-};
+            // Wait for 3 seconds before redirecting
+            setTimeout(() => {
+                navigate('/so-do-hoi-nghi');
+            }, 3000);
+        }
+    };
 
     return (
         <>
