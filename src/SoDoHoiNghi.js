@@ -1,36 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import sodohoinghi from "./assets/sodohoinghi.jpg";
+import titlehoinghi from "./assets/titlehoinghi.png";
 
 const SoDoHoiNghi = () => {
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        // Giả định bạn sẽ lấy dữ liệu từ một API hoặc nguồn nào đó
-        const fetchData = async () => {
-            try {
-                // Thay thế với API thực tế của bạn
-                const response = await fetch('https://api.example.com/sodohoinhi');
-                const result = await response.json();
-                setData(result);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
     return (
-        <div>
-            <h1>Sơ Đồ Hội Nghị</h1>
-            {data.length > 0 ? (
-                <ul>
-                    {data.map(item => (
-                        <li key={item.id}>{item.name}</li>
-                    ))}
-                </ul>
-            ) : (
-                <p>Không có dữ liệu để hiển thị.</p>
-            )}
+        <div className="chaomung-wrapper position-relative" style={{ backgroundSize: 'cover', backgroundPosition: 'top' }}>
+            <div className="h-100 d-flex align-items-center">
+                <div className="w-100 d-flex justify-content-center align-items-center">
+                    <div className="user-info text-center mb-4" style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={titlehoinghi} style={{ width: "90%", marginTop: "1rem" }} alt="hoinghi Title" />
+                        <img src={sodohoinghi} style={{ width: "70%", marginTop: "1rem" }} alt="hoinghi Image" />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
