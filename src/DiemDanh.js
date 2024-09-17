@@ -68,33 +68,36 @@ const DiemDanh = () => {
     }, [debouncedValue, debouncedSoDienThoai, unit]);
 
     const handleConfirm = async (user) => {
-        const date = moment();
-        const dateString = date.format("HH:mm DD-MM-YYYY");
+    const date = moment();
+    const dateString = date.format("HH:mm DD-MM-YYYY");
 
-        const checkInQuery = query(
-            collection(db, "diemdanh")
-        );
+    const checkInQuery = query(
+        collection(db, "diemdanh"),
+        where("hovaten", "==", user.hovaten),
+        where("checkIn", ">=", date.startOf('day').valueOf()), // Check for check-ins on the same day
+        where("checkIn", "<=", date.endOf('day').valueOf())
+    );
 
-        const existingCheckIns = await getDocs(checkInQuery);
-        const checkExists = existingCheckIns.docs.some(snap =>
-            dateString === moment(snap.data().checkIn).format("HH:mm DD-MM-YYYY")
-        );
+    const existingCheckIns = await getDocs(checkInQuery);
 
-        if (!checkExists) {
-            await setDoc(doc(db, "diemdanh", uuidv4()), {
-                ...user,
-                checkIn: date.valueOf(), // Lưu thời gian dưới dạng timestamp
-            });
-            alert(`Điểm danh thành công cho ${user.hovaten}`);
+    if (existingCheckIns.size > 0) {
+        const existingCheckIn = existingCheckIns.docs[0].data();
+        const checkInTime = moment(existingCheckIn.checkIn).format("HH:mm DD-MM-YYYY");
+        alert(`Bạn đã điểm danh vào lúc ${checkInTime}`);
+    } else {
+        await setDoc(doc(db, "diemdanh", uuidv4()), {
+            ...user,
+            checkIn: date.valueOf(), // Save the timestamp of check-in
+        });
 
-            // Chờ 3 giây trước khi chuyển hướng
-            setTimeout(() => {
-                navigate('/so-do-hoi-nghi');
-            }, 3000);
-        } else {
-            alert(`Bạn đã điểm danh vào ngày ${dateString}`);
-        }
-    };
+        alert(`Điểm danh thành công cho ${user.hovaten}`);
+
+        // Wait for 3 seconds before redirecting
+        setTimeout(() => {
+            navigate('/so-do-hoi-nghi');
+        }, 3000);
+    }
+};
 
     return (
         <>
